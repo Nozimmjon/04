@@ -1,0 +1,123 @@
+---
+title: "Untitled"
+author: "Nozimjon Ortiqov"
+date: '2022-05-07'
+output: html_document
+---
+
+
+```{r}
+here()
+
+Sys.setlocale("LC_CTYPE", "russian")
+```
+
+```{r}
+navoiy_input_01 <- readxl::read_xlsx(here("data", "navoiy_2022_10.xlsx")) 
+```
+
+```{r}
+#creating a vector that contains the new names 
+
+new_names <-   c("phone_number", "gender", "district", "age", 
+                 "is_working", "is_official",  "q_1", "q_2", "q_3", "income", 
+                 "q_4", "q_5", "q_6", "q_7", "q_8", "q_9", "q_10","q_11", "q_12")
+
+```
+
+```{r}
+navoiy_input_02 <- navoiy_input_01 %>% 
+  select(-3) %>% 
+  set_names(new_names) %>% 
+  relocate(income, .before = q_1) %>% 
+  mutate_if(is.character, as_factor) %>% 
+  distinct(phone_number, .keep_all = TRUE) %>% 
+  drop_na(district) %>%
+  mutate(q_11 = recode(q_11, 
+                       "Муаммо йук" = "Муаммо йўқ",
+                       "Кўмирнинг етишмаслиги/қимматлиги;" = "Кўмир етишмаслиги/қимматлиги",
+                       "Суюлтирилган газни етказиб бериш билан боғлиқ муаммо;" = "Суюлтирилган газ етказиб бериш",
+                       "Марказлашган газ тизими мавжуд эмас;" = "Марказлашган газ мавжуд эмас",
+                       "Газ таъминотидаги тез-тез узилишлар ;" = "Газ таъминотида узилиш",
+                       "Электр таъминоти узилиши билан боглик муаммо" = "Электр таъминотида узилиш",
+                       "Ўтин етишмаслиги/қимматлиги" = "Ўтин етишмаслиги",
+                       .default = "Бошқа"))
+```
+    
+```{r}
+skim(navoiy_input_02)
+```
+
+
+```{r}
+q1_reg <- reg_table(navoiy_input_02, q_1) %>% 
+  dplyr::select(district, "Ёмонлашади", "Ўзгармайди", "Яхшиланади") %>% 
+  mutate_at(vars(-district), as.double) %>% 
+  dplyr::select(district, pos="Яхшиланади", neg="Ёмонлашади") %>% 
+  mutate(b_s_q1 = pos-neg+100) %>% 
+  dplyr::select(-pos, -neg)
+
+q2_reg <- reg_table(navoiy_input_02, q_2) %>% 
+  dplyr::select(district, "Пасайди", "Ўзгармади", "Ошди") %>% 
+  mutate_at(vars(-district), as.double) %>% 
+  dplyr::select(district, pos="Ошди", neg="Пасайди") %>% 
+  mutate(b_s_q2=pos-neg+100) %>% 
+  dplyr::select(-pos, -neg)
+
+q3_reg <- reg_table(navoiy_input_02, q_3) %>% 
+  dplyr::select(district, "Қисқаради", "Ўзгармайди", "Кўпаяди") %>%
+  mutate_at(vars(-district), as.double) %>% 
+  dplyr::select(district, pos="Кўпаяди", neg="Қисқаради") %>% 
+  mutate(b_s_q3 = pos-neg+100) %>% 
+  dplyr::select(-pos, -neg)
+
+q4_reg <- reg_table(navoiy_input_02, q_4) %>% 
+  dplyr::select(district, "Камайди", "Ўзгармади", "Кўпайди") %>% 
+  mutate_at(vars(-district), as.double) %>% 
+  dplyr::select(district, pos="Кўпайди", neg="Камайди") %>% 
+  mutate(b_s_q4 = pos-neg+100) %>% 
+  dplyr::select(-pos, -neg)
+
+q5_reg <- reg_table(navoiy_input_02,q_5) %>% 
+  dplyr::select(district, "Камаяди", "Ўзгармайди", "Кўпаяди") %>% 
+  mutate_at(vars(-district), as.double) %>% 
+  dplyr::select(district, pos="Кўпаяди", neg="Камаяди") %>% 
+  mutate(b_s_q5 = pos-neg+100) %>% 
+  select(-pos, -neg)
+
+q6_reg <- reg_table(navoiy_input_02, q_6) %>% 
+  select(district, "Йўқ", "Билмайман", "Ҳа") %>% 
+  mutate_at(vars(-district), as.double) %>% 
+  select(district, pos="Ҳа", neg="Йўқ") %>% 
+  mutate(b_s_q6 = pos-neg+100) %>% 
+  select(-pos, -neg)
+
+q7 <- reg_table(navoiy_input_02, q_7) %>% 
+  mutate_at(vars(-district), as.double) %>% 
+  mutate_if(is.numeric, round, digits =0)
+```
+
+```{r}
+reg_cur <- q2_reg %>% left_join(q4_reg) %>% left_join(., q6_reg) %>% 
+  mutate(bs_score_cur = (b_s_q2+b_s_q4 + b_s_q6)/3) 
+
+reg_fut <- q1_reg %>% left_join(q3_reg) %>% left_join(., q5_reg) %>% 
+  mutate(bs_score_fut = (b_s_q1+b_s_q3 + b_s_q5)/3) 
+
+bs_score_reg <-  reg_cur %>%  left_join(reg_fut) %>%  
+  mutate(bs_gen = (bs_score_cur + bs_score_fut)/2)  %>% 
+  select(district, bs_gen, everything()) %>%  
+  mutate_if(is.numeric, round, digits =0) 
+```
+
+```{r}
+list_of_dataframes <- list("index" = bs_score_reg,  "problems_district" = q7)  
+
+wb <- createWorkbook()
+lapply(seq_along(list_of_dataframes), function(i){
+  addWorksheet(wb=wb, sheetName = names(list_of_dataframes[i]))
+  writeData(wb, sheet = i, list_of_dataframes[[i]])
+})
+#Save Workbook
+saveWorkbook(wb, "navoiy_indeks_2022_10.xlsx", overwrite = TRUE) 
+```
