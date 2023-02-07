@@ -1,19 +1,20 @@
 
+dir.create(here("results", "andijan"), recursive = TRUE, showWarnings = FALSE)
+
 #Table 1 
 
   andijan_input_02 %>%
-  tabyl(district, q_1) %>%
-  adorn_percentages() %>% 
-  select(district, "Ёмонлашади", "Ўзгармайди", "Яхшиланади") %>% 
-  mutate_at(vars(-district), as.numeric) %>% 
-  arrange(desc(across(starts_with("Ёмонлашади")))) %>% 
-  gt(rowname_col = "district") %>% 
-  tab_header(title = md("*1-савол.* **3 ойдан сўнг Ўзбекистонда <span style='color:red'>иқтисодий ҳолат</span> қандай ўзгаради?**"),
-             subtitle = md("(*Респондентларнинг жавоблари*)")) %>% 
-  fmt_percent(columns = c(2:4), decimals = 0) %>% 
-  my_theme_gt() %>% 
-  cols_width(everything() ~ px(180)) %>% 
-  gtsave('1_savol.png', path = here("results", "tables", "andijan"))
+    tabyl(district, q_1) %>%
+    adorn_percentages() %>% 
+    select(district, "Ёмонлашади", "Ўзгармайди", "Яхшиланади") %>% 
+    mutate_at(vars(-district), as.numeric) %>% 
+    arrange(desc(across(starts_with("Ёмонлашади")))) %>% 
+    gt(rowname_col = "district") %>% 
+    tab_header(title = md("*1-савол.* **3 ойдан сўнг Ўзбекистонда <span style='color:red'>иқтисодий ҳолат</span> қандай ўзгаради?**"),
+               subtitle = md("(*Респондентларнинг жавоблари*)")) %>% 
+      my_theme_gt() %>% 
+    cols_width(everything() ~ px(180)) %>% 
+  gtsave('1_savol.png', path = here("results", "andijan"))
 
 #table 3
 andijan_input_02 %>%
@@ -27,7 +28,7 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('3_savol.png', path = here("results", "tables", "andijan"))
+  gtsave('3_savol.png', path = here("results", "andijan"))
 
 #table 5
 andijan_input_02 %>%
@@ -41,7 +42,7 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('5_savol.png', path = here::here("results", "tables", "andijan"))
+  gtsave('5_savol.png', path = here::here("results", "andijan"))
 
 #table 2
 andijan_input_02 %>%
@@ -55,7 +56,7 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('2_savol.png', path = here("results", "tables", "andijan"))
+  gtsave('2_savol.png', path = here("results", "andijan"))
 
 #table 4
 andijan_input_02 %>%
@@ -69,7 +70,7 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('4_savol.png', path = here("results", "tables", "andijan"))
+  gtsave('4_savol.png', path = here("results", "andijan"))
 
 
 #table 6
@@ -84,7 +85,7 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('6_savol.png', path = here("results", "tables", "andijan"))
+  gtsave('6_savol.png', path = here("results", "andijan"))
 
 
 #table 12 mahalliy organlarni baholash 
@@ -100,7 +101,7 @@ andijan_input_02 %>%
              subtitle = md("(*Респондентларнинг жавоблари)*")) %>% 
   cols_width(everything() ~ px(120)) %>% 
   my_theme_gt() %>% 
-  gtsave('mahalliy_organ.png', path = here("results", "tables", "andijan"))
+  gtsave('mahalliy_organ.png', path = here("results", "andijan"))
 
 # table 8 uy isitish manbalari
 
@@ -137,7 +138,7 @@ andijan_input_02 %>%
              subtitle = md("(*Респондентларнинг жавоблари)*")) %>%
   cols_width(everything() ~ px(120)) %>%
   my_theme_gt() %>%
-  gtsave('islohotlar_tezlash.png', path = here("results", "tables", "andijan"), vwidth = 1500, vheight = 1000)
+  gtsave('islohotlar_tezlash.png', path = here("results", "andijan"), vwidth = 1500, vheight = 1000)
 
 #table 10 qishga tayyorlik
 
@@ -156,7 +157,7 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   cols_width(everything() ~ px(190)) %>% 
   my_theme_gt() %>% 
-  gtsave('ishsizlik.png', path = here("results", "tables", "andijan"))  
+  gtsave('ishsizlik.png', path = here("results", "andijan"))  
 
 #gender
 andijan_input_02 %>% 
@@ -177,7 +178,7 @@ andijan_input_02 %>%
   tab_header(title = md("**Туманлар (шаҳарлар) кесимида расмий меҳнат фаолияти билан банд бўлганлар ҳолати**")) %>% 
   cols_width(everything() ~ px(200)) %>%
   my_theme_gt() %>% 
-  gtsave('formality.png', path = here("results", "tables", "andijan"))    
+  gtsave('formality.png', path = here("results", "andijan"))    
 
 
 #income groups
@@ -198,4 +199,4 @@ andijan_input_02 %>% filter(income != "Жавоб беришдан бош тор
   tab_header(title = md("**Аҳоли ойлик даромадининг тақсимланиши**")) %>% 
   cols_width(everything() ~ px(150)) %>% 
   my_theme_gt() %>% 
-  gtsave('income.png', path = here("results", "tables", "andijan"))    
+  gtsave('income.png', path = here("results", "andijan"))    

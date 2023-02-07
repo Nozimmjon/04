@@ -3,7 +3,8 @@
   my_theme_gt <- function(data, ...) {
     data %>% 
   tab_stubhead(label = md("**Туманлар**")) %>% 
-  fmt_percent(columns = everything(), decimals = 0) %>% 
+  #mutate_at(vars(everything()), as.numeric) %>% 
+  fmt_percent(columns = everything()[-1], decimals = 0) %>% 
   grand_summary_rows(columns = everything(),
                      fns = list("Вилоят бўйича ўртача" = ~ mean(., na.rm = TRUE)), 
                      formatter = fmt_percent,  decimals = 0) %>% 
