@@ -3,6 +3,7 @@ dir.create(here("results", "andijan"), recursive = TRUE, showWarnings = FALSE)
 
 #Table 1 
 
+<<<<<<< HEAD:script/andijon/andijan_tables_2022_10.R
   andijan_input_02 %>%
     tabyl(district, q_1) %>%
     adorn_percentages() %>% 
@@ -15,9 +16,24 @@ dir.create(here("results", "andijan"), recursive = TRUE, showWarnings = FALSE)
       my_theme_gt() %>% 
     cols_width(everything() ~ px(180)) %>% 
   gtsave('1_savol.png', path = here("results", "andijan"))
+=======
+fergana_input_02 %>%
+  tabyl(district, q_1) %>%
+  adorn_percentages() %>% 
+  select(district, "Ёмонлашади", "Ўзгармайди", "Яхшиланади") %>% 
+  mutate_at(vars(-district), as.numeric) %>% 
+  arrange(desc(across(starts_with("Ёмонлашади")))) %>% 
+  gt(rowname_col = "district") %>% 
+  tab_header(title = md("*1-савол.* **3 ойдан сўнг Ўзбекистонда <span style='color:red'>иқтисодий ҳолат</span> қандай ўзгаради?**"),
+             subtitle = md("(*Респондентларнинг жавоблари*)")) %>% 
+  fmt_percent(columns = c(2:4), decimals = 0) %>% 
+  my_theme_gt() %>% 
+  cols_width(everything() ~ px(180)) %>% 
+  gtsave('1_savol.png', path = here("results", "tables", "fergana"))
+>>>>>>> 8905d84c726186aa41868a9a2ea6a790e46b7630:script/fergana/fergana_tables_2023_01.R
 
 #table 3
-andijan_input_02 %>%
+fergana_input_02 %>%
   tabyl(district, q_3) %>%
   adorn_percentages() %>% 
   select(district, "Қисқаради", "Ўзгармайди", "Кўпаяди") %>% 
@@ -28,10 +44,14 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
+<<<<<<< HEAD:script/andijon/andijan_tables_2022_10.R
   gtsave('3_savol.png', path = here("results", "andijan"))
+=======
+  gtsave('3_savol.png', path = here("results", "tables", "fergana"))
+>>>>>>> 8905d84c726186aa41868a9a2ea6a790e46b7630:script/fergana/fergana_tables_2023_01.R
 
 #table 5
-andijan_input_02 %>%
+fergana_input_02 %>%
   tabyl(district, q_5) %>%
   adorn_percentages() %>% 
   select(district, "Камаяди", "Ўзгармайди", "Кўпаяди") %>% 
@@ -42,10 +62,14 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
+<<<<<<< HEAD:script/andijon/andijan_tables_2022_10.R
   gtsave('5_savol.png', path = here::here("results", "andijan"))
+=======
+  gtsave('5_savol.png', path = here::here("results", "tables", "fergana"))
+>>>>>>> 8905d84c726186aa41868a9a2ea6a790e46b7630:script/fergana/fergana_tables_2023_01.R
 
 #table 2
-andijan_input_02 %>%
+fergana_input_02 %>%
   tabyl(district, q_2) %>%
   adorn_percentages() %>% 
   select(district, "Пасайди", "Ўзгармади", "Ошди") %>% 
@@ -56,10 +80,14 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
+<<<<<<< HEAD:script/andijon/andijan_tables_2022_10.R
   gtsave('2_savol.png', path = here("results", "andijan"))
+=======
+  gtsave('2_savol.png', path = here("results", "tables", "fergana"))
+>>>>>>> 8905d84c726186aa41868a9a2ea6a790e46b7630:script/fergana/fergana_tables_2023_01.R
 
 #table 4
-andijan_input_02 %>%
+fergana_input_02 %>%
   tabyl(district, q_4) %>%
   adorn_percentages() %>% 
   select(district, "Камайди", "Ўзгармади", "Кўпайди") %>% 
@@ -70,11 +98,15 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
+<<<<<<< HEAD:script/andijon/andijan_tables_2022_10.R
   gtsave('4_savol.png', path = here("results", "andijan"))
+=======
+  gtsave('4_savol.png', path = here("results", "tables", "fergana"))
+>>>>>>> 8905d84c726186aa41868a9a2ea6a790e46b7630:script/fergana/fergana_tables_2023_01.R
 
 
 #table 6
-andijan_input_02 %>%
+fergana_input_02 %>%
   tabyl(district, q_6) %>%
   adorn_percentages() %>% 
   select(district, "Қулай фурсат эмас" = "Йўқ", "Билмайман",   "Қулай фурсат" = "Ҳа") %>% 
@@ -85,12 +117,16 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
+<<<<<<< HEAD:script/andijon/andijan_tables_2022_10.R
   gtsave('6_savol.png', path = here("results", "andijan"))
+=======
+  gtsave('6_savol.png', path = here("results", "tables", "fergana"))
+>>>>>>> 8905d84c726186aa41868a9a2ea6a790e46b7630:script/fergana/fergana_tables_2023_01.R
 
 
 #table 12 mahalliy organlarni baholash 
 
-andijan_input_02 %>%
+fergana_input_02 %>%
   tabyl(district, q_9) %>%
   adorn_percentages() %>% 
   select(district, "Жуда ёмон", "Ёмон", "Ўртача", "Яхши", "Жуда яхши") %>% 
@@ -101,23 +137,27 @@ andijan_input_02 %>%
              subtitle = md("(*Респондентларнинг жавоблари)*")) %>% 
   cols_width(everything() ~ px(120)) %>% 
   my_theme_gt() %>% 
+<<<<<<< HEAD:script/andijon/andijan_tables_2022_10.R
   gtsave('mahalliy_organ.png', path = here("results", "andijan"))
+=======
+  gtsave('mahalliy_organ.png', path = here("results", "tables", "fergana"))
+>>>>>>> 8905d84c726186aa41868a9a2ea6a790e46b7630:script/fergana/fergana_tables_2023_01.R
 
 # table 8 uy isitish manbalari
 
-  andijan_input_02 %>%
+fergana_input_02 %>%
   mutate(q_8 = str_replace_all(q_8, "(тез тиббий ёрдам, поликлиника, шифохоналар ва дорихоналар мавжудлиги)", "")) %>% 
   add_count(district) %>% 
   separate_rows(q_8, sep = ",") %>%
   mutate(q_8 = str_trim(q_8)) %>% 
   mutate(q_8 = recode(q_8, 
-                       "Соғлиқни сақлаш хизматлари сифатини ошириш борасидаги ишлар" = "Соғлиқни сақлаш сифатини ошириш",
-                       "Мактабгача таълим тизими билан қамров даражасини ошириш борасидаги ишлар" = "Мактабгача таълим тизими билан қамровни ошириш",
-                       "Мактабда таълим сифатини ошириш борасидаги ишлар" = "Мактабда таълим сифатини ошириш",
-                       "Аҳолини уй-жой билан таъминлаш ишларини" = "Аҳолини уй-жой билан таъминлаш",
-                       "Маҳаллабай ишлаш ва ҳоким ёрдамчилари тизимидаги ишларни" = "Маҳаллабай ишлаш ва ҳоким ёрдамчилари ",
-                       "Ўқитувчиларни қўллаб-қувватлаш ишларини" = "Ўқитувчиларни қўллаб-қувватлаш",
-                       "Шифокорларни қўллаб-қувватлаш ишларини" = "Шифокорларни қўллаб-қувватлаш",
+                      "Соғлиқни сақлаш хизматлари сифатини ошириш борасидаги ишлар" = "Соғлиқни сақлаш сифатини ошириш",
+                      "Мактабгача таълим тизими билан қамров даражасини ошириш борасидаги ишлар" = "Мактабгача таълим тизими билан қамровни ошириш",
+                      "Мактабда таълим сифатини ошириш борасидаги ишлар" = "Мактабда таълим сифатини ошириш",
+                      "Аҳолини уй-жой билан таъминлаш ишларини" = "Аҳолини уй-жой билан таъминлаш",
+                      "Маҳаллабай ишлаш ва ҳоким ёрдамчилари тизимидаги ишларни" = "Маҳаллабай ишлаш ва ҳоким ёрдамчилари ",
+                      "Ўқитувчиларни қўллаб-қувватлаш ишларини" = "Ўқитувчиларни қўллаб-қувватлаш",
+                      "Шифокорларни қўллаб-қувватлаш ишларини" = "Шифокорларни қўллаб-қувватлаш",
                       "Коррупцияга қарши курашишлар" = "Коррупцияга қарши курашиш",
                       "Камбағаликка қарши кураш ишларини" = "Камбағаликка қарши кураш",
                       "Олий таълим тизимидаги ислоҳотларни" = "Олий таълим тизимидаги ислоҳотларни",
@@ -126,7 +166,7 @@ andijan_input_02 %>%
                       "Газ таъминоти соҳаси" = "Газ таъминоти",
                       "Иш билан таъминлаш соҳаси" = "Бандликни таъминлаш",
                       "Электр таъминоти соҳаси" = "Электр таъминоти",
-                       .default = "Бошқа")) %>% 
+                      .default = "Бошқа")) %>% 
   count(district, n, q_8) %>% 
   mutate(freq = nn/n) %>% 
   select(-n, -nn) %>% 
@@ -138,14 +178,18 @@ andijan_input_02 %>%
              subtitle = md("(*Респондентларнинг жавоблари)*")) %>%
   cols_width(everything() ~ px(120)) %>%
   my_theme_gt() %>%
+<<<<<<< HEAD:script/andijon/andijan_tables_2022_10.R
   gtsave('islohotlar_tezlash.png', path = here("results", "andijan"), vwidth = 1500, vheight = 1000)
+=======
+  gtsave('islohotlar_tezlash.png', path = here("results", "tables", "fergana"), vwidth = 1500, vheight = 1000)
+>>>>>>> 8905d84c726186aa41868a9a2ea6a790e46b7630:script/fergana/fergana_tables_2023_01.R
 
 #table 10 qishga tayyorlik
 
 
 #table ishsizlik
 
-andijan_input_02 %>% 
+fergana_input_02 %>% 
   filter(is_working != "Пенсиядаман") %>% 
   tabyl(district, is_working) %>%
   adorn_percentages() %>% 
@@ -157,17 +201,21 @@ andijan_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   cols_width(everything() ~ px(190)) %>% 
   my_theme_gt() %>% 
+<<<<<<< HEAD:script/andijon/andijan_tables_2022_10.R
   gtsave('ishsizlik.png', path = here("results", "andijan"))  
+=======
+  gtsave('ishsizlik.png', path = here("results", "tables", "fergana"))  
+>>>>>>> 8905d84c726186aa41868a9a2ea6a790e46b7630:script/fergana/fergana_tables_2023_01.R
 
 #gender
-andijan_input_02 %>% 
+fergana_input_02 %>% 
   filter(is_working != "Пенсиядаман") %>% 
   tabyl(gender, is_working) %>% 
   adorn_percentages()
 
 #formality
 
-andijan_input_02 %>% 
+fergana_input_02 %>% 
   filter(is_working == "Ҳа") %>% 
   tabyl(district, is_official) %>%
   adorn_percentages() %>% 
@@ -178,11 +226,15 @@ andijan_input_02 %>%
   tab_header(title = md("**Туманлар (шаҳарлар) кесимида расмий меҳнат фаолияти билан банд бўлганлар ҳолати**")) %>% 
   cols_width(everything() ~ px(200)) %>%
   my_theme_gt() %>% 
+<<<<<<< HEAD:script/andijon/andijan_tables_2022_10.R
   gtsave('formality.png', path = here("results", "andijan"))    
+=======
+  gtsave('formality.png', path = here("results", "tables", "fergana"))    
+>>>>>>> 8905d84c726186aa41868a9a2ea6a790e46b7630:script/fergana/fergana_tables_2023_01.R
 
 
 #income groups
-andijan_input_02 %>% filter(income != "Жавоб беришдан бош тортди") %>% 
+fergana_input_02 %>% filter(income != "Жавоб беришдан бош тортди") %>% 
   mutate(income = str_replace_all(income, " ", "")) %>%  
   mutate(income = as.double(income)) %>% 
   mutate(income_group = case_when(income == 0 ~ "Даромади мавжуд эмас",
@@ -199,4 +251,8 @@ andijan_input_02 %>% filter(income != "Жавоб беришдан бош тор
   tab_header(title = md("**Аҳоли ойлик даромадининг тақсимланиши**")) %>% 
   cols_width(everything() ~ px(150)) %>% 
   my_theme_gt() %>% 
+<<<<<<< HEAD:script/andijon/andijan_tables_2022_10.R
   gtsave('income.png', path = here("results", "andijan"))    
+=======
+  gtsave('income.png', path = here("results", "tables", "fergana"))    
+>>>>>>> 8905d84c726186aa41868a9a2ea6a790e46b7630:script/fergana/fergana_tables_2023_01.R
