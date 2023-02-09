@@ -5,7 +5,6 @@ date: '2022-05-07'
 output: html_document
 ---
 
-
 ```{r}
 here()
 
@@ -13,16 +12,15 @@ Sys.setlocale("LC_CTYPE", "russian")
 ```
 
 ```{r}
-fergana_input_01 <- readxl::read_xlsx(here("data", "fergana_2022_10.xlsx")) 
+fergana_input_01 <- readxl::read_xlsx(here("data", "fergana.xlsx")) 
 ```
 
 ```{r}
 #creating a vector that contains the new names 
 
 new_names <-   c("phone_number", "gender", "district", "age", 
-                 "is_working", "is_official",  "q_1", "q_2", "q_3", "income", 
-                 "q_4", "q_5", "q_6", "q_7", "q_8", "q_9", "q_10","q_11", "q_12")
-
+                 "is_working",  "is_official",  "q_1", "q_2", "q_3", "income", 
+                 "q_4", "q_5", "q_6", "q_7", "q_8", "q_9", "education")
 ```
 
 ```{r}
@@ -33,15 +31,9 @@ fergana_input_02 <- fergana_input_01 %>%
   mutate_if(is.character, as_factor) %>% 
   distinct(phone_number, .keep_all = TRUE) %>% 
   drop_na(district) %>% 
-  mutate(q_11 = recode(q_11, 
-                       "Муаммо йук" = "Муаммо йўқ",
-                       "Кўмирнинг етишмаслиги/қимматлиги;" = "Кўмир етишмаслиги/қимматлиги",
-                       "Суюлтирилган газни етказиб бериш билан боғлиқ муаммо;" = "Суюлтирилган газ етказиб бериш",
-                       "Марказлашган газ тизими мавжуд эмас;" = "Марказлашган газ мавжуд эмас",
-                       "Газ таъминотидаги тез-тез узилишлар ;" = "Газ таъминотида узилиш",
-                       "Электр таъминоти узилиши билан боглик муаммо" = "Электр таъминотида узилиш",
-                       "Ўтин етишмаслиги/қимматлиги" = "Ўтин етишмаслиги",
-                       .default = "Бошқа")) %>%
+  mutate(district = recode(district, "Бўз" = "Бўстон",
+                           "Андижон тумани" = "Андижон т.",
+                           "Избосган" = "Избоскан"))
 ```
 
 ```{r}
@@ -109,6 +101,7 @@ bs_score_reg <-  reg_cur %>%  left_join(reg_fut) %>%
   mutate_if(is.numeric, round, digits =0) 
 ```
 
+
 ```{r}
 list_of_dataframes <- list("index" = bs_score_reg,  "problems_district" = q7)  
 
@@ -118,5 +111,5 @@ lapply(seq_along(list_of_dataframes), function(i){
   writeData(wb, sheet = i, list_of_dataframes[[i]])
 })
 #Save Workbook
-saveWorkbook(wb, "fergana_indeks_2022_10.xlsx", overwrite = TRUE) 
+saveWorkbook(wb, "fergana_indeks_2023_01.xlsx", overwrite = TRUE) 
 ```
