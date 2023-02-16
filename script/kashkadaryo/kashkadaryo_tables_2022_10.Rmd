@@ -129,6 +129,9 @@ bs_score_reg <-  reg_cur %>%  left_join(reg_fut) %>%
   adorn_totals() %>% 
   adorn_percentages("row") %>% 
   adorn_pct_formatting(rounding = "half up", digits = 0, affix_sign = FALSE)
+
+
+write_xlsx(q_8, "q8.xlsx")
 ```
 
 ```{r}
@@ -140,5 +143,5 @@ lapply(seq_along(list_of_dataframes), function(i){
   writeData(wb, sheet = i, list_of_dataframes[[i]])
 })
 #Save Workbook
-saveWorkbook(wb, "kashkadarya_indeks_2023_01.xlsx", overwrite = TRUE) 
+saveWorkbook(wb, "kashkadarya_indeks_2023_01_01.xlsx", overwrite = TRUE) 
 ```
