@@ -1,7 +1,7 @@
-
+dir.create(here("results", "tables", "surxondarya"), recursive = TRUE, showWarnings = FALSE)
 #Table 1 
 
-surxondaryo_input_02 %>%
+surxondarya_input_02 %>%
   tabyl(district, q_1) %>%
   adorn_percentages() %>% 
   select(district, "Ёмонлашади", "Ўзгармайди", "Яхшиланади") %>% 
@@ -12,10 +12,10 @@ surxondaryo_input_02 %>%
              subtitle = md("(*Респондентларнинг жавоблари*)")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('1_savol.png', path = here("results", "tables", "surxondaryo"))
+  gtsave('1_savol.png', path = here("results", "tables", "surxondarya"))
 
 #table 3
-surxondaryo_input_02 %>%
+surxondarya_input_02 %>%
   tabyl(district, q_3) %>%
   adorn_percentages() %>% 
   select(district, "Қисқаради", "Ўзгармайди", "Кўпаяди") %>% 
@@ -26,10 +26,10 @@ surxondaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('3_savol.png', path = here("results", "tables", "surxondaryo"))
+  gtsave('3_savol.png', path = here("results", "tables", "surxondarya"))
 
 #table 5
-surxondaryo_input_02 %>%
+surxondarya_input_02 %>%
   tabyl(district, q_5) %>%
   adorn_percentages() %>% 
   select(district, "Камаяди", "Ўзгармайди", "Кўпаяди") %>% 
@@ -40,10 +40,10 @@ surxondaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('5_savol.png', path = here("results", "tables", "surxondaryo"))
+  gtsave('5_savol.png', path = here("results", "tables", "surxondarya"))
 
 #table 2
-surxondaryo_input_02 %>%
+surxondarya_input_02 %>%
   tabyl(district, q_2) %>%
   adorn_percentages() %>% 
   select(district, "Пасайди", "Ўзгармади", "Ошди") %>% 
@@ -54,10 +54,10 @@ surxondaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('2_savol.png', path = here("results", "tables", "surxondaryo"))
+  gtsave('2_savol.png', path = here("results", "tables", "surxondarya"))
 
 #table 4
-surxondaryo_input_02 %>%
+surxondarya_input_02 %>%
   tabyl(district, q_4) %>%
   adorn_percentages() %>% 
   select(district, "Камайди", "Ўзгармади", "Кўпайди") %>% 
@@ -68,11 +68,11 @@ surxondaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('4_savol.png', path = here("results", "tables", "surxondaryo"))
+  gtsave('4_savol.png', path = here("results", "tables", "surxondarya"))
 
 
 #table 6
-surxondaryo_input_02 %>%
+surxondarya_input_02 %>%
   tabyl(district, q_6) %>%
   adorn_percentages() %>% 
   select(district, "Қулай фурсат эмас" = "Йўқ", "Билмайман",   "Қулай фурсат" = "Ҳа") %>% 
@@ -83,26 +83,13 @@ surxondaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('6_savol.png', path = here("results", "tables", "surxondaryo"))
+  gtsave('6_savol.png', path = here("results", "tables", "surxondarya"))
 
-#table 7
-
-# table_7 <- surxondaryo_input_02 %>% add_count(district) %>% 
-#   separate_rows(q_7, sep = ",") %>%
-#   mutate(q_7 = str_trim(q_7)) %>% 
-#   count(district, n,  q_7) %>% 
-#   mutate(freq = 100*nn/n) %>% 
-#   select(-n, -nn) %>% 
-#   pivot_wider(names_from = q_7, values_from = freq) 
-# 
-# write_xlsx(table_7, "muammolar_surxondaryo.xlsx")
-
-#table 8
 
 #table 11 mahalliy organlarni baholash 
 
-surxondaryo_input_02 %>%
-  tabyl(district, q_12) %>%
+surxondarya_input_02 %>%
+  tabyl(district, q_9) %>%
   adorn_percentages() %>% 
   select(district, "Жуда ёмон", "Ёмон", "Ўртача", "Яхши", "Жуда яхши") %>% 
   mutate_at(vars(-district), as.double) %>% 
@@ -112,76 +99,14 @@ surxondaryo_input_02 %>%
              subtitle = md("(*Респондентларнинг жавоблари)*")) %>% 
   cols_width(everything() ~ px(120)) %>% 
   my_theme_gt() %>% 
-  gtsave('mahalliy_organ.png', path = here("results", "tables", "surxondaryo"))
+  gtsave('mahalliy_organ.png', path = here("results", "tables", "surxondarya"))
 
-
-# table 8 uy isitish manbalari
-
-surxondaryo_input_02 %>%
-  mutate(q_8 = str_replace_all(q_8, "(электропечка, пушка, кондиционер ва х.к.)", "")) %>% 
-  mutate(q_8 = str_replace_all(q_8, "(тёплый пол, АГВ ёки котёл)", "")) %>% 
-  mutate(q_8 = str_replace_all(q_8, "Апилка билан", "опилка")) %>% 
-  mutate(q_8 = str_replace_all(q_8, "ОПИЛЬКА", "опилка")) %>% 
-  add_count(district) %>% 
-  separate_rows(q_8, sep = ",") %>%
-  mutate(q_8 = str_trim(q_8)) %>% 
-  mutate(q_8 = recode(q_8, 
-                      "Кўмир ва кўмир брикетлари" = "Кўмир ва кўмир брикетлари",
-                      "Суюлтирилган газ (баллон)" = "Суюлтирилган газ (баллон)",
-                      "Марказлашган иссиқлик тизими (Центральное отопление)" = "Марказлашган иссиқлик тизими",
-                      "Ўтин" = "Ўтин",
-                      "Электр таъминоти ()" = "Электр таъминоти",
-                      "Табиий газ таъминоти ( )" = "Табиий газ таъминоти",
-                      .default = "Бошқа")) %>% 
-  count(district, n, q_8) %>% 
-  mutate(freq = nn/n) %>% 
-  select(-n, -nn) %>% 
-  pivot_wider(names_from = q_8, values_from = freq, values_fill = 0) %>% 
-  mutate_at(vars(-district), as.double) %>%
-  #arrange(desc(across(starts_with("Жуда ёмон")))) %>%
-  gt(rowname_col = "district") %>%
-  tab_header(title = md("**Уйингизни иситиш учун асосан қандай манбалардан фойдаланасиз?**"),
-             subtitle = md("(*Респондентларнинг жавоблари)*")) %>%
-  cols_width(everything() ~ px(120)) %>%
-  my_theme_gt() %>%
-  gtsave('иситиш_манбалари.png', path = here("results", "tables", "surxondaryo"), vwidth = 1500, vheight = 1000)
-
-#table 10 qishga tayyorlik
-
-surxondaryo_input_02 %>%
-  tabyl(district, q_10) %>%
-  adorn_percentages() %>%
-  select(district, "Ҳа, тўлиқ тайёр",  
-         "Тайёр эмас",
-         "Қисман"
-  ) %>%
-  mutate_at(vars(-district), as.double) %>%
-  arrange(desc(across(starts_with("Ҳа, тўлиқ тайёр")))) %>%
-  gt(rowname_col = "district") %>%
-  tab_header(title = md("**Уй хўжалигингиз куз-қиш мавсумига тайёрми?**"),
-             subtitle = md("(*Респондентларнинг жавоблари)*")) %>%
-  cols_width(everything() ~ px(120)) %>%
-  my_theme_gt() %>%
-  gtsave('winter_readiness.png', path = here("results", "tables", "surxondaryo"), vwidth = 1500, vheight = 1000)
-
-# isitish bilan bogliq muammolar 
-
-surxondaryo_input_02 %>%
-  tabyl(district, q_11) %>%
-  adorn_percentages() %>%
-  mutate_at(vars(-district), as.double) %>%
-  gt(rowname_col = "district") %>%
-  tab_header(title = md("**Куз-қиш мавсумида иситиш билан боғлиқ энг катта муаммо**"),
-             subtitle = md("(*Респондентлар жавоблари)*")) %>%
-  cols_width(everything() ~ px(125)) %>%
-  my_theme_gt() %>%
-  gtsave('winter_readiness_2.png', path = here("results", "tables", "surxondaryo"), vwidth = 1500, vheight = 1000)
 
 
 
 #table ishsizlik
 
-surxondaryo_input_02 %>% 
+surxondarya_input_02 %>% 
   filter(is_working != "Пенсиядаман") %>% 
   tabyl(district, is_working) %>%
   adorn_percentages() %>% 
@@ -193,17 +118,17 @@ surxondaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   cols_width(everything() ~ px(190)) %>% 
   my_theme_gt() %>% 
-  gtsave('ishsizlik.png', path = here("results", "tables", "surxondaryo"))  
+  gtsave('ishsizlik.png', path = here("results", "tables", "surxondarya"))  
 
 #gender
-surxondaryo_input_02 %>% 
+surxondarya_input_02 %>% 
   filter(is_working != "Пенсиядаман") %>% 
   tabyl(gender, is_working) %>% 
   adorn_percentages()
 
 #formality
 
-surxondaryo_input_02 %>% 
+surxondarya_input_02 %>% 
   filter(is_working == "Ҳа") %>% 
   tabyl(district, is_official) %>%
   adorn_percentages() %>% 
@@ -214,11 +139,11 @@ surxondaryo_input_02 %>%
   tab_header(title = md("**Туманлар (шаҳарлар) кесимида расмий меҳнат фаолияти билан банд бўлганлар ҳолати**")) %>% 
   cols_width(everything() ~ px(200)) %>%
   my_theme_gt() %>% 
-  gtsave('formality.png', path = here("results", "tables", "surxondaryo"))    
+  gtsave('formality.png', path = here("results", "tables", "surxondarya"))    
 
 
 #income groups
-surxondaryo_input_02 %>% filter(income != "Жавоб беришдан бош тортди") %>% 
+surxondarya_input_02 %>% filter(income != "Жавоб беришдан бош тортди") %>% 
   mutate(income = str_replace_all(income, " ", "")) %>%  
   mutate(income = as.double(income)) %>% 
   mutate(income_group = case_when(income == 0 ~ "Даромади мавжуд эмас",
@@ -235,6 +160,4 @@ surxondaryo_input_02 %>% filter(income != "Жавоб беришдан бош т
   tab_header(title = md("**Аҳоли ойлик даромадининг тақсимланиши**")) %>% 
   cols_width(everything() ~ px(150)) %>% 
   my_theme_gt() %>% 
-  gtsave('income.png', path = here("results", "tables", "surxondaryo"))    
-
-
+  gtsave('income.png', path = here("results", "tables", "surxondarya"))     

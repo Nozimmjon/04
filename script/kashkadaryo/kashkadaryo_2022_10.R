@@ -1,7 +1,7 @@
 dir.create(here("results", "tables", "kashkadarya"), recursive = TRUE, showWarnings = FALSE)
 #Table 1 
 
-kashkadaryo_input_02 %>%
+kashkadarya_input_02 %>%
   tabyl(district, q_1) %>%
   adorn_percentages() %>% 
   select(district, "Ёмонлашади", "Ўзгармайди", "Яхшиланади") %>% 
@@ -12,10 +12,10 @@ kashkadaryo_input_02 %>%
              subtitle = md("(*Респондентларнинг жавоблари*)")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('1_savol.png', path = here("results", "tables", "kashkadaryo"))
+  gtsave('1_savol.png', path = here("results", "tables", "kashkadarya"))
 
 #table 3
-kashkadaryo_input_02 %>%
+kashkadarya_input_02 %>%
   tabyl(district, q_3) %>%
   adorn_percentages() %>% 
   select(district, "Қисқаради", "Ўзгармайди", "Кўпаяди") %>% 
@@ -26,10 +26,10 @@ kashkadaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('3_savol.png', path = here("results", "tables", "kashkadaryo"))
+  gtsave('3_savol.png', path = here("results", "tables", "kashkadarya"))
 
 #table 5
-kashkadaryo_input_02 %>%
+kashkadarya_input_02 %>%
   tabyl(district, q_5) %>%
   adorn_percentages() %>% 
   select(district, "Камаяди", "Ўзгармайди", "Кўпаяди") %>% 
@@ -40,10 +40,10 @@ kashkadaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('5_savol.png', path = here("results", "tables", "kashkadaryo"))
+  gtsave('5_savol.png', path = here("results", "tables", "kashkadarya"))
 
 #table 2
-kashkadaryo_input_02 %>%
+kashkadarya_input_02 %>%
   tabyl(district, q_2) %>%
   adorn_percentages() %>% 
   select(district, "Пасайди", "Ўзгармади", "Ошди") %>% 
@@ -54,10 +54,10 @@ kashkadaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('2_savol.png', path = here("results", "tables", "kashkadaryo"))
+  gtsave('2_savol.png', path = here("results", "tables", "kashkadarya"))
 
 #table 4
-kashkadaryo_input_02 %>%
+kashkadarya_input_02 %>%
   tabyl(district, q_4) %>%
   adorn_percentages() %>% 
   select(district, "Камайди", "Ўзгармади", "Кўпайди") %>% 
@@ -68,11 +68,11 @@ kashkadaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('4_savol.png', path = here("results", "tables", "kashkadaryo"))
+  gtsave('4_savol.png', path = here("results", "tables", "kashkadarya"))
 
 
 #table 6
-kashkadaryo_input_02 %>%
+kashkadarya_input_02 %>%
   tabyl(district, q_6) %>%
   adorn_percentages() %>% 
   select(district, "Қулай фурсат эмас" = "Йўқ", "Билмайман",   "Қулай фурсат" = "Ҳа") %>% 
@@ -83,12 +83,12 @@ kashkadaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   my_theme_gt() %>% 
   cols_width(everything() ~ px(180)) %>% 
-  gtsave('6_savol.png', path = here("results", "tables", "kashkadaryo"))
+  gtsave('6_savol.png', path = here("results", "tables", "kashkadarya"))
 
 
 #table 11 mahalliy organlarni baholash 
 
-kashkadaryo_input_02 %>%
+kashkadarya_input_02 %>%
   tabyl(district, q_9) %>%
   adorn_percentages() %>% 
   select(district, "Жуда ёмон", "Ёмон", "Ўртача", "Яхши", "Жуда яхши") %>% 
@@ -99,14 +99,14 @@ kashkadaryo_input_02 %>%
              subtitle = md("(*Респондентларнинг жавоблари)*")) %>% 
   cols_width(everything() ~ px(120)) %>% 
   my_theme_gt() %>% 
-  gtsave('mahalliy_organ.png', path = here("results", "tables", "kashkadaryo"))
+  gtsave('mahalliy_organ.png', path = here("results", "tables", "kashkadarya"))
 
 
 
 
 #table ishsizlik
 
-kashkadaryo_input_02 %>% 
+kashkadarya_input_02 %>% 
   filter(is_working != "Пенсиядаман") %>% 
   tabyl(district, is_working) %>%
   adorn_percentages() %>% 
@@ -118,17 +118,17 @@ kashkadaryo_input_02 %>%
              subtitle = md("*(Респондентларнинг жавоблари)*")) %>% 
   cols_width(everything() ~ px(190)) %>% 
   my_theme_gt() %>% 
-  gtsave('ishsizlik.png', path = here("results", "tables", "kashkadaryo"))  
+  gtsave('ishsizlik.png', path = here("results", "tables", "kashkadarya"))  
 
 #gender
-kashkadaryo_input_02 %>% 
+kashkadarya_input_02 %>% 
   filter(is_working != "Пенсиядаман") %>% 
   tabyl(gender, is_working) %>% 
   adorn_percentages()
 
 #formality
 
-kashkadaryo_input_02 %>% 
+kashkadarya_input_02 %>% 
   filter(is_working == "Ҳа") %>% 
   tabyl(district, is_official) %>%
   adorn_percentages() %>% 
@@ -139,11 +139,11 @@ kashkadaryo_input_02 %>%
   tab_header(title = md("**Туманлар (шаҳарлар) кесимида расмий меҳнат фаолияти билан банд бўлганлар ҳолати**")) %>% 
   cols_width(everything() ~ px(200)) %>%
   my_theme_gt() %>% 
-  gtsave('formality.png', path = here("results", "tables", "kashkadaryo"))    
+  gtsave('formality.png', path = here("results", "tables", "kashkadarya"))    
 
 
 #income groups
-kashkadaryo_input_02 %>% filter(income != "Жавоб беришдан бош тортди") %>% 
+kashkadarya_input_02 %>% filter(income != "Жавоб беришдан бош тортди") %>% 
   mutate(income = str_replace_all(income, " ", "")) %>%  
   mutate(income = as.double(income)) %>% 
   mutate(income_group = case_when(income == 0 ~ "Даромади мавжуд эмас",
@@ -160,7 +160,7 @@ kashkadaryo_input_02 %>% filter(income != "Жавоб беришдан бош т
   tab_header(title = md("**Аҳоли ойлик даромадининг тақсимланиши**")) %>% 
   cols_width(everything() ~ px(150)) %>% 
   my_theme_gt() %>% 
-  gtsave('income.png', path = here("results", "tables", "kashkadaryo"))     
+  gtsave('income.png', path = here("results", "tables", "kashkadarya"))     
 
                                                                                                           
 
