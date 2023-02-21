@@ -1,4 +1,4 @@
-
+dir.create(here("results", "tables", "buxoro"), recursive = TRUE, showWarnings = FALSE)
 #Table 1 
 
 buxoro_input_02 %>%
@@ -85,87 +85,11 @@ buxoro_input_02 %>%
   cols_width(everything() ~ px(180)) %>% 
   gtsave('6_savol.png', path = here("results", "tables", "buxoro"))
 
-# table 8 uy isitish manbalari
-
-buxoro_input_02 %>%
-  mutate(q_8 = str_replace_all(q_8, "(электропечка, пушка, кондиционер ва х.к.)", "")) %>% 
-  mutate(q_8 = str_replace_all(q_8, "(тёплый пол, АГВ ёки котёл)", "")) %>% 
-  mutate(q_8 = str_replace_all(q_8, "Апилка билан", "опилка")) %>% 
-  mutate(q_8 = str_replace_all(q_8, "ОПИЛЬКА", "опилка")) %>% 
-  add_count(district) %>% 
-  separate_rows(q_8, sep = ",") %>%
-  mutate(q_8 = str_trim(q_8)) %>% 
-  mutate(q_8 = recode(q_8, 
-                      "Кўмир ва кўмир брикетлари" = "Кўмир ва кўмир брикетлари",
-                      "Суюлтирилган газ (баллон)" = "Суюлтирилган газ (баллон)",
-                      "Марказлашган иссиқлик тизими (Центральное отопление)" = "Марказлашган иссиқлик тизими",
-                      "Ўтин" = "Ўтин",
-                      "Электр таъминоти ()" = "Электр таъминоти",
-                      "Табиий газ таъминоти ( )" = "Табиий газ таъминоти",
-                      .default = "Бошқа")) %>% 
-  count(district, n, q_8) %>% 
-  mutate(freq = nn/n) %>% 
-  select(-n, -nn) %>% 
-  pivot_wider(names_from = q_8, values_from = freq, values_fill = 0) %>% 
-  mutate_at(vars(-district), as.double) %>%
-  #arrange(desc(across(starts_with("Жуда ёмон")))) %>%
-  gt(rowname_col = "district") %>%
-  tab_header(title = md("**Уйингизни иситиш учун асосан қандай манбалардан фойдаланасиз?**"),
-             subtitle = md("(*Респондентларнинг жавоблари)*")) %>%
-  cols_width(everything() ~ px(120)) %>%
-  my_theme_gt() %>%
-  gtsave('иситиш_манбалари.png', path = here("results", "tables", "buxoro"), vwidth = 1500, vheight = 1000)
-
-#table 10 qishga tayyorlik
-
-buxoro_input_02 %>%
-  tabyl(district, q_10) %>%
-  adorn_percentages() %>%
-  select(district, "Ҳа, тўлиқ тайёр",  
-         "Тайёр эмас",
-         "Қисман"
-  ) %>%
-  mutate_at(vars(-district), as.double) %>%
-  arrange(desc(across(starts_with("Ҳа, тўлиқ тайёр")))) %>%
-  gt(rowname_col = "district") %>%
-  tab_header(title = md("**Уй хўжалигингиз куз-қиш мавсумига тайёрми?**"),
-             subtitle = md("(*Респондентларнинг жавоблари)*")) %>%
-  cols_width(everything() ~ px(120)) %>%
-  my_theme_gt() %>%
-  gtsave('winter_readiness.png', path = here("results", "tables", "buxoro"), vwidth = 1500, vheight = 1000)
-
-# isitish bilan bogliq muammolar 
-
-buxoro_input_02 %>%
-  tabyl(district, q_11) %>%
-  adorn_percentages() %>%
-  mutate_at(vars(-district), as.double) %>%
-  gt(rowname_col = "district") %>%
-  tab_header(title = md("**Куз-қиш мавсумида иситиш билан боғлиқ энг катта муаммо**"),
-             subtitle = md("(*Респондентлар жавоблари)*")) %>%
-  cols_width(everything() ~ px(125)) %>%
-  my_theme_gt() %>%
-  gtsave('winter_readiness_2.png', path = here("results", "tables", "buxoro"), vwidth = 1500, vheight = 1000)
-
-
-#table 7
-
-# table_7 <- buxoro_input_02 %>% add_count(district) %>% 
-#   separate_rows(q_7, sep = ",") %>%
-#   mutate(q_7 = str_trim(q_7)) %>% 
-#   count(district, n,  q_7) %>% 
-#   mutate(freq = 100*nn/n) %>% 
-#   select(-n, -nn) %>% 
-#   pivot_wider(names_from = q_7, values_from = freq) 
-# 
-# write_xlsx(table_7, "muammolar_buxoro.xlsx")
-
-#table 8
 
 #table 11 mahalliy organlarni baholash 
 
 buxoro_input_02 %>%
-  tabyl(district, q_12) %>%
+  tabyl(district, q_9) %>%
   adorn_percentages() %>% 
   select(district, "Жуда ёмон", "Ёмон", "Ўртача", "Яхши", "Жуда яхши") %>% 
   mutate_at(vars(-district), as.double) %>% 
@@ -178,65 +102,7 @@ buxoro_input_02 %>%
   gtsave('mahalliy_organ.png', path = here("results", "tables", "buxoro"))
 
 
-#   #table 8 hokim yordamchisi
-#   
-# buxoro_input_02 %>%
-#   tabyl(district, q_8) %>%
-#   adorn_percentages() %>%
-#   select(district, "Танимайман",  
-#          "Ҳеч қандай ёрдам бергани йўқ", 
-#          "Имтиёзли кредит олишда кўмаклашди", 
-#          "Ишга жойлаштиришга ёрдам берди",
-#          "Субсидия, грант ва моддий ёрдам тақдим этилди",
-#          "Ер ажратишда ёрдам берди", 
-#          "Танийман, лекин ёрдамга зарурият йўқ") %>%
-#   mutate_at(vars(-district), as.double) %>%
-#   #arrange(desc(across(starts_with("Жуда ёмон")))) %>%
-#   gt(rowname_col = "district") %>%
-#   tab_header(title = md("**Ҳоким ёрдамчиси томонидан кўрсатилган ёрдам ҳолати**"),
-#              subtitle = md("(*Респондентларнинг жавоблари)*")) %>%
-#   cols_width(everything() ~ px(120)) %>%
-#   my_theme_gt() %>%
-#   gtsave('hokim_yordamchisi.png', path = here("results", "tables", "buxoro"))
-# 
-# #table 9 yoshlar yetakchisi faoli
-# 
-# buxoro_input_02 %>%
-#   filter(age <= "30") %>%
-#   tabyl(district, q_9) %>%
-#   adorn_percentages() %>%
-#   select(district, "Танимайман",
-#          "Ёрдам олганман",
-#          "Фаолиятидан хабардорман, лекин ёрдам олмаганман",
-#          "Танийман, лекин ёрдамга зарурият йўқ") %>%
-#   mutate_at(vars(-district), as.double) %>%
-#   #arrange(desc(across(starts_with("Жуда ёмон")))) %>%
-#   gt(rowname_col = "district") %>%
-#   tab_header(title = md("**Ёшлар етакчиси фаолияти билан танишмисиз?**"),
-#              subtitle = md("(*Респондентларнинг жавоблари)*")) %>%
-#   cols_width(everything() ~ px(120)) %>%
-#   my_theme_gt() %>%
-#   gtsave('yoshlar_yetakchisi.png', path = here("results", "tables", "buxoro"))
-# 
-# 
-# #table 10 ayollar faoli
-# 
-# buxoro_input_02 %>%
-#   filter(gender == "Аёл") %>% 
-#   tabyl(district, q_10) %>%
-#   adorn_percentages() %>%
-#   select(district, "Танимайман",  
-#          "Ёрдам олганман",
-#          "Фаолиятидан хабардорман, лекин ёрдам олмаганман", 
-#          "Танийман, лекин ёрдамга зарурият йўқ") %>%
-#   mutate_at(vars(-district), as.double) %>%
-#   #arrange(desc(across(starts_with("Жуда ёмон")))) %>%
-#   gt(rowname_col = "district") %>%
-#   tab_header(title = md("**Хотин-қизлар фаоли билан танишмисиз?**"),
-#              subtitle = md("(*Респондентларнинг жавоблари)*")) %>%
-#   cols_width(everything() ~ px(120)) %>%
-#   my_theme_gt() %>%
-#   gtsave('ayollar_yetakchisi.png', path = here("results", "tables", "buxoro"))
+
 
 #table ishsizlik
 
@@ -277,7 +143,7 @@ buxoro_input_02 %>%
 
 
 #income groups
-buxoro_input_02 %>% filter(income != "Жавоб беришдан бош тортди") %>% 
+income <- buxoro_input_02 %>% filter(income != "Жавоб беришдан бош тортди") %>% 
   mutate(income = str_replace_all(income, " ", "")) %>%  
   mutate(income = as.double(income)) %>% 
   mutate(income_group = case_when(income == 0 ~ "Даромади мавжуд эмас",
