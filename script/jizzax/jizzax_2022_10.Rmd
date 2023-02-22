@@ -4,99 +4,63 @@ author: "Nozimjon Ortiqov"
 date: '2022-05-07'
 output: html_document
 ---
-
 ```{r}
-here()
-
-Sys.setlocale("LC_CTYPE", "russian")
+options(width = 120)
+print(jizzax_input, n = Inf)
 ```
 
+
+
 ```{r}
-jizzax_input_01 <- readxl::read_xlsx(here("data", "jizzax_2022_10.xlsx")) 
+jizzax_input <- read_clean_data("jizzax") %>% 
+  clean_names()
 ```
 
-```{r}
-#creating a vector that contains the new names 
-
-new_names <-   c("phone_number", "gender", "district", "age", 
-                 "is_working", "is_official",  "q_1", "q_2", "q_3", "income", 
-                 "q_4", "q_5", "q_6", "q_7", "q_8", "q_9", "q_10","q_11", "q_12")
-
-```
 
 ```{r}
-jizzax_input_02 <- jizzax_input_01 %>% 
-  select(-3) %>% 
-  set_names(new_names) %>% 
-  relocate(income, .before = q_1) %>% 
-  mutate_if(is.character, as_factor) %>% 
-  distinct(phone_number, .keep_all = TRUE) %>% 
-  drop_na(district) %>% 
-  mutate(district = recode(district, "Фориж" = "Фориш", 
-                           "Жиззах тумани" = "Шароф Рашидов")) %>% 
-  mutate(q_11 = str_replace_all(q_11, "(электропечка, пушка, кондиционер ва х.к.)", "")) %>% 
-  mutate(q_11 = recode(q_11, 
-                       "Муаммо йук" = "Муаммо йўқ",
-                       "Кўмирнинг етишмаслиги/қимматлиги;" = "Кўмир етишмаслиги/қимматлиги",
-                       "Суюлтирилган газни етказиб бериш билан боғлиқ муаммо/қимматлиги;" = "Суюлтирилган газ етказиб бериш",
-                       "Марказлашган газ тизими мавжуд эмас;" = "Марказлашган газ мавжуд эмас",
-                       "Газ таъминотидаги тез-тез узилишлар;" = "Газ таъминотида узилиш",
-                       "Электр таъминоти узилиши билан боглик муаммо" = "Электр таъминотида узилиш",
-                        "Электр таъминоти" = "Электр таъминотида узилиш",
-                       "Ўтин етишмаслиги/қимматлиги" = "Ўтин етишмаслиги",
-                       "Таббий газ <U+049B>имматлиги" = "Газ қимматлиги",
-                       "Газнинг кимматлиги" = "Газ қимматлиги",
-                       .default = "Бошқа"))
-```
-
-```{r}
-skim(jizzax_input_02)
-```
-
-```{r}
-q1_reg <- reg_table(jizzax_input_02, q_1) %>% 
+q1_reg <- reg_table(jizzax_input, q_1) %>% 
   dplyr::select(district, "Ёмонлашади", "Ўзгармайди", "Яхшиланади") %>% 
   mutate_at(vars(-district), as.double) %>% 
   dplyr::select(district, pos="Яхшиланади", neg="Ёмонлашади") %>% 
   mutate(b_s_q1 = pos-neg+100) %>% 
   dplyr::select(-pos, -neg)
 
-q2_reg <- reg_table(jizzax_input_02, q_2) %>% 
+q2_reg <- reg_table(jizzax_input, q_2) %>% 
   dplyr::select(district, "Пасайди", "Ўзгармади", "Ошди") %>% 
   mutate_at(vars(-district), as.double) %>% 
   dplyr::select(district, pos="Ошди", neg="Пасайди") %>% 
   mutate(b_s_q2=pos-neg+100) %>% 
   dplyr::select(-pos, -neg)
 
-q3_reg <- reg_table(jizzax_input_02, q_3) %>% 
+q3_reg <- reg_table(jizzax_input, q_3) %>% 
   dplyr::select(district, "Қисқаради", "Ўзгармайди", "Кўпаяди") %>%
   mutate_at(vars(-district), as.double) %>% 
   dplyr::select(district, pos="Кўпаяди", neg="Қисқаради") %>% 
   mutate(b_s_q3 = pos-neg+100) %>% 
   dplyr::select(-pos, -neg)
 
-q4_reg <- reg_table(jizzax_input_02, q_4) %>% 
+q4_reg <- reg_table(jizzax_input, q_4) %>% 
   dplyr::select(district, "Камайди", "Ўзгармади", "Кўпайди") %>% 
   mutate_at(vars(-district), as.double) %>% 
   dplyr::select(district, pos="Кўпайди", neg="Камайди") %>% 
   mutate(b_s_q4 = pos-neg+100) %>% 
   dplyr::select(-pos, -neg)
 
-q5_reg <- reg_table(jizzax_input_02,q_5) %>% 
+q5_reg <- reg_table(jizzax_input,q_5) %>% 
   dplyr::select(district, "Камаяди", "Ўзгармайди", "Кўпаяди") %>% 
   mutate_at(vars(-district), as.double) %>% 
   dplyr::select(district, pos="Кўпаяди", neg="Камаяди") %>% 
   mutate(b_s_q5 = pos-neg+100) %>% 
   select(-pos, -neg)
 
-q6_reg <- reg_table(jizzax_input_02, q_6) %>% 
+q6_reg <- reg_table(jizzax_input, q_6) %>% 
   select(district, "Йўқ", "Билмайман", "Ҳа") %>% 
   mutate_at(vars(-district), as.double) %>% 
   select(district, pos="Ҳа", neg="Йўқ") %>% 
   mutate(b_s_q6 = pos-neg+100) %>% 
   select(-pos, -neg)
 
-q7 <- reg_table(jizzax_input_02, q_7) %>% 
+q7 <- reg_table(jizzax_input, q_7) %>% 
   mutate_at(vars(-district), as.double) %>% 
   mutate_if(is.numeric, round, digits =0)
 ```
@@ -114,9 +78,41 @@ bs_score_reg <-  reg_cur %>%  left_join(reg_fut) %>%
   mutate_if(is.numeric, round, digits =0) 
 ```
 
+```{r}
+ q_8 <-  jizzax_input %>%
+  mutate(q_8 = str_replace_all(q_8, "\\(.*\\)", "")) %>% 
+  add_count(district) %>% 
+  separate_rows(q_8, sep = ",") %>%
+  mutate(q_8 = str_trim(q_8)) %>% 
+  mutate(q_8 = recode(q_8, 
+                       "Соғлиқни сақлаш хизматлари сифатини ошириш  борасидаги ишлар" = "Соғлиқни сақлашда",
+                       "Мактабгача таълим тизими билан қамров даражасини ошириш борасидаги ишлар" = "Мактабгача таълим тизими қамровида",
+                       "Мактабда таълим сифатини ошириш борасидаги ишлар" = "Мактаб таълим сифатида",
+                       "Аҳолини уй-жой билан таъминлаш ишларини" = "Уй-жой билан таъминлаш",
+                       "Маҳаллабай ишлаш ва ҳоким ёрдамчилари тизимидаги ишларни" = "Маҳаллабай ишлаш ва ҳоким ёрдамчилари",
+                       "Ўқитувчиларни қўллаб-қувватлаш ишларини" = "Ўқитувчиларни қўллаб-қувватлаш",
+                       "Шифокорларни қўллаб-қувватлаш ишларини" = "Шифокорларни қўллаб-қувватлаш",
+                      "Коррупцияга қарши курашишлар" = "Коррупцияга қарши курашиш",
+                      "Камбағаликка қарши кураш ишларини" = "Камбағаликка қарши кураш",
+                      "Олий таълим тизимидаги ислоҳотларни" = "Олий таълимдаги ислоҳотлар",
+                      "Тадбиркорларни қўллаб-қувватлаш ишларини" = "Тадбиркорларни қўллаб-қувватлаш",
+                      "Автомобил сотиб олиш жараёнларини" = "Автомобил сотиб олиш жараёнларида",
+                      "Газ таъминоти соҳаси" = "Газ таъминотида",
+                      "Иш билан таъминлаш соҳаси" = "Бандликда",
+                      "Электр таъминоти соҳасида" = "Электр таъминотида",
+                       .default = "Бошқа")) %>% 
+  count(district, n, q_8) %>% 
+  mutate(freq = nn/n) %>% 
+  select(-n, -nn) %>% 
+  pivot_wider(names_from = q_8, values_from = freq, values_fill = 0) %>% 
+  mutate_at(vars(-district), as.double) %>% 
+  adorn_totals() %>% 
+  adorn_percentages("row") %>% 
+  adorn_pct_formatting(rounding = "half up", digits = 0, affix_sign = FALSE)
+```
 
 ```{r}
-list_of_dataframes <- list("index" = bs_score_reg,  "problems_district" = q7)  
+list_of_dataframes <- list("index" = bs_score_reg,  "problems_district" = q7, "islohotlar_tezlashtirish" = q_8)  
 
 wb <- createWorkbook()
 lapply(seq_along(list_of_dataframes), function(i){
@@ -124,5 +120,5 @@ lapply(seq_along(list_of_dataframes), function(i){
   writeData(wb, sheet = i, list_of_dataframes[[i]])
 })
 #Save Workbook
-saveWorkbook(wb, "jizzax_indeks_2022_10.xlsx", overwrite = TRUE) 
+saveWorkbook(wb, "buxoro_indeks_2023_01.xlsx", overwrite = TRUE) 
 ```

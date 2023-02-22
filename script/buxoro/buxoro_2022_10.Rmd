@@ -6,8 +6,7 @@ output: html_document
 ---
 
 ```{r}
-here()
-
+here() 
 Sys.setlocale("LC_CTYPE", "russian")
 ```
 
@@ -22,8 +21,9 @@ new_names <-   c("phone_number", "gender", "region",  "district", "age", "educat
 
 
 ```{r}
-buxoro_input_01 <- readxl::read_xlsx(here("data", "buxoro.xlsx"), col_names = new_names) %>% 
+buxoro_input_01 <- readxl::read_xlsx(here("data", "buxoro.xlsx"), skip = 1, col_names = new_names) %>% 
   select(-3) %>% 
+  mutate(district = recode(district, "Бухоро вилояти" = "Бухоро тум."))
   
 ```
 
@@ -36,9 +36,6 @@ buxoro_input_02 <- buxoro_input_01 %>%
   drop_na(district) 
 ```
 
-```{r}
-skim(buxoro_input_02)
-```
 
 ```{r}
 q1_reg <- reg_table(buxoro_input_02, q_1) %>% 
